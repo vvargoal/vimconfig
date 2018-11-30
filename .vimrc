@@ -1,4 +1,10 @@
 "vim-plug
+" Install vim-plug automatically if it doesn't exist
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 ":PlugUpdate
 ":PlugUpgrade
 call plug#begin('~/.vim/bundle')

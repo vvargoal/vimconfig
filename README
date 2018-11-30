@@ -1,2 +1,2 @@
-git clone 
-echo "runtime vimrc" > .vimrc
+git clone https://github.com/vvargoal/vimconfig.git .vim
+ln -s ~/.vim/.vimrc ~/.vimrc
