@@ -15,26 +15,40 @@ Plug 'mattn/vdbi-vim'
 Plug 'w0rp/ale'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'leshill/vim-json'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" then :GoInstallBinaries
+Plug 'tpope/vim-surround',
+" then vim -u NONE -c "helptags surround/doc" -c q
 call plug#end()
 
 " vim-jsx, vim-javascript
 let g:javascript_plugin_flow = 1
+let g:jsx_ext_required = 0
 
 " ale
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 0
 let g:ale_sign_error = '●' " Less aggressive than the default '>>'
 let g:ale_sign_warning = '.'
-let g:ale_cpp_clang_executable = 'clang++'
-let g:ale_cpp_clang_options = '-std=c++17 -Wall'
+let g:ale_cpp_clang_options = '-std=c++17 -Wall -Wextra' 
+let g:ale_cpp_gcc_options = '-std=c++17 -Wall -Wextra'
+" -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include' 
 let g:ale_cpp_clangtidy_checks = ['*,-misc-unused-parameters,-llvm-header-guidelines,-readability-named-parameter,-clang-diagnostic-error,-fuchsia-*,-readability-implicit-bool-conversion']
-let g:ale_cpp_clangtidy_executable = 'clang-tidy'
-let g:ale_cpp_clangtidy_options = '-- -std=c++17'
-let g:ale_cpp_gcc_options = '-std=c++17 -Wall' 
+let g:ale_cpp_clangtidy_options = '-- -std=c++17 -Wall -Wextra'
+" -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include'
+let g:ale_cpp_clang_executable = '/usr/local/opt/llvm/bin/clang++'
+let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+
+" let g:ale_cpp_clang_options = '-std=c++17 -Wall -Wextra -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include'
+" " '-I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.0/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include'
+" let g:ale_cpp_clangtidy_executable = '/usr/local/Cellar/llvm/7.0.1/bin/clang-tidy'
+" let g:ale_cpp_gcc_executable = '/usr/local/bin/gcc'
 
 " Allows correct version of python to be detected
-let $PATH = '/usr/local/bin:'.$PATH
+" let $PATH = '/usr/local/bin:'.$PATH
 
-"set term=builtin_ansi
-"set background=dark
+" enables detecting of filetypes and indents
 filetype plugin on
 filetype indent on
 
@@ -53,10 +67,13 @@ set shiftwidth=4                " use indents of 4 spaces
 set expandtab                   " tabs are spaces, not tabs
 set tabstop=4                   " an indentation every four
 set softtabstop=4               " let backspace delete indent
-autocmd FileType html setlocal shiftwidth=2 tabstop=2
+
+autocmd Filetype html setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype javascript setlocal ts=2 sw=2 sts=2 expandtab
+autocmd Filetype javascript.jsx setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype css setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype coffeescript setlocal ts=2 sw=2 sts=2 expandtab
+autocmd Filetype yaml setlocal ts=2 sw=2 sts=2 expandtab
 
 " Be smart when using tabs ;)
 set smarttab
@@ -82,7 +99,8 @@ set ignorecase                  " case insensitive search
 set smartcase                   " case sensitive when uc present
 set wildmenu                    " show list instead of justcompleting
 set wildmode=list:longest,full  " command <Tab> completion, list
-set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap
+set whichwrap=b,s,<,>,[,]       " backspace and not cursor keys wrap
+" set whichwrap=b,s,h,l,<,>,[,]   " backspace and cursor keys wrap
 set scrolljump=5                " lines to scroll when cursor
 set scrolloff=3                 " minimum lines to keep above and
 set foldenable                  " auto fold code
